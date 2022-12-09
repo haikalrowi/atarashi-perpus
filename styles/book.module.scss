@@ -1,0 +1,58 @@
+.book {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  height: 100vh;
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 16rem;
+
+    img {
+      width: 100%;
+      box-shadow: 0px 0px 0.33rem gray;
+    }
+
+    button {
+      padding: 0px;
+      transition: 16ms;
+    }
+  }
+
+  &__rightPane {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 50%;
+  }
+
+  &__title {
+    font-size: 2rem;
+  }
+
+  &__author {
+    color: gray;
+  }
+
+  &__description {
+    line-height: 1.33;
+  }
+
+  &__others {
+    table {
+      border-collapse: collapse;
+
+      td {
+        padding: 0.3rem 0.5rem;
+
+        &:first-child {
+          color: gray;
+        }
+      }
+    }
+  }
+}
