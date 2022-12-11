@@ -1,6 +1,6 @@
-import { GetServerSideProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import rb from "../public/reading-book.png";
 import styles from "../styles/index.module.scss";
@@ -13,26 +13,23 @@ export interface Buku {
   isbn: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  let res1 = await fetch(new URL(`http://${context.req.headers.host}/api/book/latest`))
-  let json1 = await res1.json()
-  let res2 = await fetch(new URL(`http://${context.req.headers.host}/api/book/popular`))
-  let json2 = await res2.json()
+export default function () {
+  let [data1, setData1] = useState<Buku[] | null>(null)
+  let [data2, setData2] = useState<Buku[] | null>(null)
 
-  return {
-    props: {
-      buku_terbaru: json1,
-      buku_terkenal: json2
-    }
-  }
-}
+  useEffect(() => {
+    fetch('/api/book/latest')
+      .then((res) => { return res.json() })
+      .then((json) => { setData1(json) })
+    fetch('/api/book/popular')
+      .then((res) => { return res.json() })
+      .then((json) => { setData2(json) })
+  }, [])
 
-export default function (
-  props: {
-    buku_terbaru: Buku[],
-    buku_terkenal: Buku[]
+  if (data1 == null || data2 == null) {
+    return <>Loading...</>
   }
-) {
+
   return (
     <>
       <nav className={styles.nav__container}>
@@ -59,7 +56,7 @@ export default function (
         <div className={styles.book__shelf}>
           <h2>Buku Terbaru</h2>
           <div className={styles.book__container}>
-            {props.buku_terbaru.map((v, i) => {
+            {data1.map((v, i) => {
               return <div className={styles.book__item} key={i}>
                 <Link href={{ pathname: `/book/${v?.isbn}` }}>
                   <div className={styles.book__image}><img src={v?.gambar_buku} alt="next" /></div>
@@ -74,7 +71,7 @@ export default function (
         <div className={styles.book__shelf}>
           <h2>Paling sering dipinjam</h2>
           <div className={styles.book__container}>
-            {props.buku_terkenal.map((v, i) => {
+            {data2.map((v, i) => {
               return <div className={styles.book__item} key={i}>
                 <Link href={{ pathname: `/book/${v?.isbn}` }}>
                   <div className={styles.book__image}><img src={v?.gambar_buku} alt="next" /></div>
