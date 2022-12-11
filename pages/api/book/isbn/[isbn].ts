@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let db = await dbPerpusOpen()
         let result = await db.all(`SELECT deskripsi.*, COUNT(deskripsi.isbn) AS stok FROM deskripsi JOIN buku ON deskripsi.isbn = buku.isbn WHERE deskripsi.isbn = ${req.query.isbn};`)
         res.status(200).json(result)
-        db.close()
       }
       catch (ex) {
         res.status(500).end(JSON.stringify(ex))

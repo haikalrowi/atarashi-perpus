@@ -3,7 +3,7 @@ import sqlite3 from "sqlite3";
 
 export default async function () {
   return open({
-    filename: './public/databases/dbPerpus',
-    driver: sqlite3.Database
+    filename: './dbPerpus.db',
+    driver: sqlite3.cached.Database
   })
 }
