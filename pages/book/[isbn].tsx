@@ -15,9 +15,8 @@ export interface Buku {
   stok: number;
 }
 
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let { req, query, params } = context
+  let { req, query } = context
   let res = await fetch(`http://${req.headers.host}/api/book/isbn/${query && query.isbn}`)
   let json = await res.json()
 
