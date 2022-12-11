@@ -22,7 +22,9 @@ export default function (props: { query: ParsedUrlQuery }) {
           .then((json) => { setData(json) })
         break
       case 'nama':
-        console.log
+        fetch(`/api/book/name/${query.q}`)
+          .then((res) => { return res.json() })
+          .then((json) => { setData(json) })
         break
       default:
         break
